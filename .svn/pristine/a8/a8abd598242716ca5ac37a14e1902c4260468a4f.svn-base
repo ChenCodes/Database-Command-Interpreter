@@ -1,0 +1,62 @@
+package db61b;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/** FIXME
+ * @author Yuxi Chen
+ */
+
+
+/** Tests basic functionality including: 
+	* 1. The row class 
+	*/
+ public class BasicTests {
+
+
+ 	@Test
+ 	public void testRow() {
+ 		Row r = new Row(new String[]{"Jack", "is", "writing", "this", "test."});
+ 		assertEquals(5, r.size());
+ 		assertEquals("Jack", r.get(0));
+ 		Row m = new Row(new String[]{"Jack", "is", "writing", "this", "test."});
+ 		assertEquals(true, r.equals(m));
+ 		String[] titles = {"Name", "SID", "Year"};
+ 		Table newTable = new Table(titles);
+ 		assertEquals(3, newTable.columns());
+ 		assertEquals("SID", newTable.getTitle(1));
+ 		assertEquals(2, newTable.findColumn("Year"));
+
+
+ 		Table z = new Table(new String[]{"Name", "Surname", "Grade"});
+ 		Row a = new Row(new String[]{"Jason", "Knowles", "B"});
+ 		Row b = new Row(new String[]{"Shana", "Brown", "B"});
+ 		Row c = new Row(new String[]{"Yangfan", "Chan", "B"});
+ 		Row d = new Row(new String[]{"Valerie", "Chan", "B"});
+
+
+ 		z.add(a);
+ 		z.add(b);
+ 		z.add(c);
+ 		z.add(d);
+ 		z.print();
+
+
+ 		Database database1 = new Database();
+ 		database1.put("info", z);
+ 		database1.put("moreInfo", newTable);
+ 		database1.get("info");
+
+ 		z.writeTable("boomchickawow");
+
+
+
+
+ 	}
+
+ 	public static void main(String[] args) {
+ 		System.exit(ucb.junit.textui.runClasses(BasicTests.class));
+ 	}
+
+
+ }

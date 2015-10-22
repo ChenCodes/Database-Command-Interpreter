@@ -1,0 +1,116 @@
+package db61b;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/** FIXME
+ * @author Yuxi Chen
+ */
+
+
+/** Tests basic functionality including:
+* 1. The row class
+*/
+public class BasicTests {
+    @Test
+    public void testRow() {
+        Row r = new Row(new String[]{"Jack", "is", "writing", "this", "test."});
+        assertEquals(5, r.size());
+        assertEquals("Jack", r.get(0));
+        Row m = new Row(new String[]{"Jack", "is", "writing", "this", "test."});
+        assertEquals(true, r.equals(m));
+
+    }
+
+    @Test
+    public void testTable() {
+        String[] titles = {"Name", "SID", "Year"};
+        Table newTable = new Table(titles);
+        assertEquals(3, newTable.columns());
+        assertEquals("SID", newTable.getTitle(1));
+        assertEquals(2, newTable.findColumn("Year"));
+        Table z = new Table(new String[]{"Name", "Surname", "Grade"});
+        Row a = new Row(new String[]{"Jason", "Knowles", "B"});
+        Row b = new Row(new String[]{"Shana", "Brown", "B"});
+        Row c = new Row(new String[]{"Yangfan", "Chan", "B"});
+        Row d = new Row(new String[]{"Valerie", "Chan", "B"});
+        z.add(a);
+        z.add(b);
+        z.add(c);
+        z.add(d);
+        z.print();
+        assertEquals(4, z.size());
+    }
+
+    @Test
+    public void testColumn() {
+        Table z = new Table(new String[]{"Name", "Surname", "Grade"});
+        Row a = new Row(new String[]{"Jason", "Knowles", "B"});
+        Row b = new Row(new String[]{"Shana", "Brown", "B"});
+        Row c = new Row(new String[]{"Yangfan", "Chan", "B"});
+        Row d = new Row(new String[]{"Valerie", "Chan", "B"});
+        z.add(a);
+        z.add(b);
+        z.add(c);
+        z.add(d);
+        Column newColumn = new Column("Surname", z);
+        assertEquals("Surname", newColumn.getName());
+        assertEquals("Brown", newColumn.getFrom(b));
+    }
+
+    @Test
+    public void testDatabase() {
+        String[] titles = {"Name", "SID", "Year"};
+        Table newTable = new Table(titles);
+        Row e = new Row(new String[]{"Jason", "12345", "2013"});
+        Row f = new Row(new String[]{"Shana", "23456", "2014"});
+        Row g = new Row(new String[]{"Yangfan", "34567", "2012"});
+        Row h = new Row(new String[]{"Valerie", "45678", "2011"});
+
+        Table z = new Table(new String[]{"Name", "Surname", "Grade"});
+        Row a = new Row(new String[]{"Jason", "Knowles", "B"});
+        Row b = new Row(new String[]{"Shana", "Brown", "B"});
+        Row c = new Row(new String[]{"Yangfan", "Chan", "B"});
+        Row d = new Row(new String[]{"Valerie", "Chan", "B"});
+        z.add(a);
+        z.add(b);
+        z.add(c);
+        z.add(d);
+
+        Database database1 = new Database();
+        database1.put("TABLEZ", z);
+        database1.put("NEWTABLE", newTable);
+        assertEquals(z, database1.get("TABLEZ"));
+        assertEquals(newTable, database1.get("NEWTABLE"));
+    }
+
+    @Test
+    public void testCondition() {
+        String[] titles = {"Name", "SID", "Year"};
+        Table newTable = new Table(titles);
+
+        Row e = new Row(new String[]{"Jason", "12345", "2013"});
+        Row f = new Row(new String[]{"Shana", "23456", "2014"});
+        Row g = new Row(new String[]{"Yangfan", "34567", "2012"});
+        Row h = new Row(new String[]{"Valerie", "45678", "2011"});
+        newTable.add(e);
+        newTable.add(f);
+        newTable.add(g);
+        newTable.add(h);
+
+        Column sidColumn = new Column("SID", newTable);
+        Column nameColumn = new Column("Name", newTable);
+        Column yearColumn = new Column("Year", newTable);
+
+        // Condition sidCondition = new Condition(sidColumn, ">", "10000");
+        // List<Condition> conditionList = new ArrayList<Condition>();
+        // conditionList.add(sidCondition);
+
+    }
+
+
+
+    public static void main(String[] args) {
+        System.exit(ucb.junit.textui.runClasses(BasicTests.class));
+    }
+}
